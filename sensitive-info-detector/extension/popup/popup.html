@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Security Prompt Guard</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <section class="popup-card">
+        <div class="popup-header">
+          <h1>AI Security Prompt Guard</h1>
+          <label class="toggle">
+            <input id="enabled-toggle" type="checkbox" />
+            <span>Enabled</span>
+          </label>
+        </div>
+        <div class="popup-status">
+          <div>
+            <span class="label">Backend</span>
+            <strong id="backend-status">Checking...</strong>
+          </div>
+          <div>
+            <span class="label">Sites</span>
+            <strong>ChatGPT, Gemini</strong>
+          </div>
+        </div>
+        <div class="popup-last">
+          <div class="label">Last Decision</div>
+          <div id="last-route" class="value">No decisions yet.</div>
+          <div id="last-reason" class="muted">The extension updates this after a send attempt.</div>
+        </div>
+      </section>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

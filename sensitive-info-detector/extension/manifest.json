@@ -1,0 +1,77 @@
+{
+  "manifest_version": 3,
+  "name": "AI Security Prompt Guard",
+  "version": "0.1.0",
+  "description": "Intercepts prompts on ChatGPT and Gemini, checks local risk routing, and prevents high-risk prompts from leaving the browser.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://gemini.google.com/*",
+    "http://127.0.0.1:8000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "AI Security Prompt Guard",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*"
+      ],
+      "js": [
+        "content/shared.js",
+        "content/chatgpt.js"
+      ],
+      "css": [
+        "content/styles.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "content/shared.js",
+        "content/gemini.js"
+      ],
+      "css": [
+        "content/styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "ui/panel.html",
+        "ui/panel.css",
+        "ui/panel.js",
+        "icons/icon16.png",
+        "icons/icon48.png",
+        "icons/icon128.png"
+      ],
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://gemini.google.com/*"
+      ]
+    }
+  ]
+}

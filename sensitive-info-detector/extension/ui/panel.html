@@ -1,0 +1,108 @@
+<div class="ai-security-panel" hidden>
+  <div class="ai-security-header">
+    <div>
+      <div class="ai-security-title">AI Security Prompt Guard</div>
+      <div class="ai-security-platform" data-platform>UNKNOWN</div>
+    </div>
+    <div class="ai-security-pill low" data-route-pill>Idle</div>
+  </div>
+  <div class="ai-security-body">
+    <div class="ai-security-grid">
+      <div class="ai-security-row">
+        <div class="ai-security-label">Route</div>
+        <div class="ai-security-value" data-route>idle</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Risk Level</div>
+        <div class="ai-security-value" data-risk-level>unknown</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Label</div>
+        <div class="ai-security-value" data-label>unknown</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Confidence</div>
+        <div class="ai-security-value" data-confidence>n/a</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Requires Review</div>
+        <div class="ai-security-value" data-review>No</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Reason</div>
+        <div class="ai-security-value" data-reason>Waiting for a send attempt.</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Categories</div>
+        <div class="ai-security-tags" data-categories></div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Local Response</div>
+        <div class="ai-security-value" data-local-response>No local response yet.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ai-security-modal-backdrop" data-local-modal hidden>
+  <div class="ai-security-modal" role="dialog" aria-modal="true" aria-label="Local response workspace">
+    <div class="ai-security-modal-header">
+      <div>
+        <div class="ai-security-title">Handled Locally</div>
+        <div class="ai-security-platform" data-local-platform>LOCAL WORKSPACE</div>
+      </div>
+      <button class="ai-security-close" type="button" data-close-local-modal>Close</button>
+    </div>
+    <div class="ai-security-modal-body">
+      <div class="ai-security-pill local" data-local-pill>Local</div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Backend</div>
+        <div class="ai-security-value" data-local-backend>ollama</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Backend Status</div>
+        <div class="ai-security-value" data-local-backend-state>Ready</div>
+      </div>
+      <div class="ai-security-row" data-local-warning-row hidden>
+        <div class="ai-security-label">Backend Warning</div>
+        <div class="ai-security-value" data-local-warning></div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Risk</div>
+        <div class="ai-security-value" data-local-risk>high</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Label</div>
+        <div class="ai-security-value" data-local-label>unknown</div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Categories</div>
+        <div class="ai-security-tags" data-local-categories></div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Local Thread</div>
+        <div class="ai-security-chat-thread" data-local-transcript>
+          <div class="ai-security-empty-thread">No local messages yet.</div>
+        </div>
+      </div>
+      <div class="ai-security-row">
+        <div class="ai-security-label">Continue Locally</div>
+        <div class="ai-security-chat-composer">
+          <textarea
+            class="ai-security-textarea"
+            data-local-chat-input
+            rows="4"
+            placeholder="Continue this sensitive conversation locally..."
+          ></textarea>
+          <div class="ai-security-chat-status" data-local-chat-status>
+            Continue the conversation locally. Press Enter to send.
+          </div>
+        </div>
+      </div>
+      <div class="ai-security-modal-actions">
+        <button class="ai-security-secondary-action" type="button" data-clear-local-chat>Clear Thread</button>
+        <button class="ai-security-action" type="button" data-copy-local-response>Copy Response</button>
+        <button class="ai-security-action" type="button" data-send-local-chat>Send Local Reply</button>
+      </div>
+    </div>
+  </div>
+</div>
