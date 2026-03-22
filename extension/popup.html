@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SentinelSovereign Demo</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="popup-header">
+        <div>
+          <p class="eyebrow">SentinelSovereign</p>
+          <h1>Federated Demo</h1>
+        </div>
+        <span id="connection-badge" class="badge badge-pending">Checking</span>
+      </header>
+
+      <section class="card">
+        <label class="field">
+          <span>Active User</span>
+          <select id="active-profile"></select>
+        </label>
+        <p id="connection-detail" class="muted">Checking connection...</p>
+        <div class="status-line">
+          <span class="label">This Computer's Local Model</span>
+          <strong id="local-model-status">Checking...</strong>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Add Sensitive Keyword</h2>
+        <p class="muted">Teach the active user a keyword, then repeat for a second user to demonstrate federated recognition.</p>
+        <label class="field">
+          <span>Keyword</span>
+          <input id="sensitive-term" type="text" placeholder="ORION_TEST_7" />
+        </label>
+        <button id="mark-sensitive" class="primary">Add Sensitive Keyword</button>
+        <p id="feedback-status" class="status-message muted"></p>
+      </section>
+
+      <section class="card">
+        <h2>User Keyword Weights</h2>
+        <div id="profile-list" class="profile-list"></div>
+      </section>
+    </main>
+    <script type="module" src="popup.js"></script>
+  </body>
+  </html>

@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "SentinelSovereign Interceptor",
+  "version": "1.0.0",
+  "description": "Intercepts ChatGPT and Gemini prompts, audits them with a local daemon, and shows a transparent review overlay.",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*",
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://gemini.google.com/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": ["content-script.js"],
+      "css": ["overlay.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "SentinelSovereign",
+    "default_popup": "popup.html"
+  }
+}
