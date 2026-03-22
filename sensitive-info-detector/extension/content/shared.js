@@ -47,6 +47,10 @@
     await sendMessage({ type: "clearTabState" });
   }
 
+  async function openLocalWorkspace(platform) {
+    return await sendMessage({ type: "openLocalWorkspace", platform });
+  }
+
   async function ensurePanel(platform) {
     if (state.panelReady) {
       return state.panelReady;
@@ -273,18 +277,10 @@
     };
 
     const root = await ensurePanel(platform);
-    renderLocalModal(platform, {
-      route: "local",
-      risk_level: stored?.lastDecision?.risk_level || "high",
-      label: stored?.lastDecision?.label || "unknown",
-      categories: stored?.lastDecision?.categories || [],
-      local_backend: state.localChat.backend,
-      local_fallback_used: state.localChat.fallbackUsed,
-      local_backend_error: stored?.lastDecision?.local_backend_error || "",
-      local_response: ""
-    });
-    renderLocalTranscript(root, state.localChat.transcript);
-    updateLocalComposer(root);
+    const panel = root.querySelector(".ai-security-panel");
+    panel.hidden = false;
+    root.querySelector("[data-local-response]").textContent =
+      "An active local-only conversation is available in the Local Workspace window.";
   }
 
   async function renderDecision(platform, decision) {
@@ -529,7 +525,7 @@
       };
       await persistLocalState();
       showBadge("Handled locally", "local");
-      await renderLocalModal(config.platform, decision);
+      await openLocalWorkspace(config.platform);
     } else {
       state.localChat = {
         sessionId: null,

@@ -3,6 +3,8 @@ const DEFAULT_SETTINGS = {
   backendUrl: "http://127.0.0.1:8000",
   timeoutMs: 8000
 };
+const LOCAL_WORKSPACE_PATH = "local/local_chat.html";
+const workspaceWindows = new Map();
 
 function getTabStateKey(tabId) {
   return `tabState:${tabId}`;
@@ -159,6 +161,42 @@ async function clearTabState(tabId) {
   await storage.remove(getTabStateKey(tabId));
 }
 
+async function openLocalWorkspace(sourceTabId, platform) {
+  const existingWindowId = workspaceWindows.get(sourceTabId);
+  if (typeof existingWindowId === "number") {
+    try {
+      await chrome.windows.update(existingWindowId, { focused: true });
+      return { windowId: existingWindowId, reused: true };
+    } catch (_error) {
+      workspaceWindows.delete(sourceTabId);
+    }
+  }
+
+  const url = chrome.runtime.getURL(
+    `${LOCAL_WORKSPACE_PATH}?sourceTabId=${encodeURIComponent(String(sourceTabId))}&platform=${encodeURIComponent(platform || "unknown")}`
+  );
+  const created = await chrome.windows.create({
+    url,
+    type: "popup",
+    width: 520,
+    height: 760,
+    focused: true
+  });
+
+  if (typeof created.id === "number") {
+    workspaceWindows.set(sourceTabId, created.id);
+  }
+  return { windowId: created.id, reused: false };
+}
+
+chrome.windows.onRemoved.addListener((windowId) => {
+  for (const [tabId, mappedWindowId] of workspaceWindows.entries()) {
+    if (mappedWindowId === windowId) {
+      workspaceWindows.delete(tabId);
+    }
+  }
+});
+
 chrome.runtime.onInstalled.addListener(async () => {
   await chrome.storage.local.set(DEFAULT_SETTINGS);
   await setBadgeState("on");
@@ -210,6 +248,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ ok: true });
         return;
       }
+      if (message?.type === "getTabStateForTab") {
+        if (typeof message.tabId !== "number") {
+          throw new Error("A source tab id is required.");
+        }
+        sendResponse({ ok: true, data: await getTabState(message.tabId) });
+        return;
+      }
+      if (message?.type === "setTabStateForTab") {
+        if (typeof message.tabId !== "number") {
+          throw new Error("A source tab id is required.");
+        }
+        await setTabState(message.tabId, message.state || {});
+        sendResponse({ ok: true, data: await getTabState(message.tabId) });
+        return;
+      }
+      if (message?.type === "clearTabStateForTab") {
+        if (typeof message.tabId !== "number") {
+          throw new Error("A source tab id is required.");
+        }
+        await clearTabState(message.tabId);
+        sendResponse({ ok: true });
+        return;
+      }
       if (message?.type === "processPrompt") {
         const settings = await getSettings();
         if (!settings.enabled) {
@@ -232,6 +293,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       if (message?.type === "chatLocal") {
         sendResponse({ ok: true, data: await chatLocal(message) });
+        return;
+      }
+      if (message?.type === "openLocalWorkspace") {
+        const sourceTabId = typeof message.sourceTabId === "number" ? message.sourceTabId : tabId;
+        if (typeof sourceTabId !== "number") {
+          throw new Error("Local workspace requires a source tab id.");
+        }
+        sendResponse({ ok: true, data: await openLocalWorkspace(sourceTabId, message.platform) });
         return;
       }
       sendResponse({ ok: false, error: "Unknown message type." });

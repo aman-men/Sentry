@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Workspace</title>
+    <link rel="stylesheet" href="local_chat.css" />
+  </head>
+  <body>
+    <main class="workspace">
+      <header class="workspace-header">
+        <div>
+          <div class="workspace-eyebrow">Sensitive Prompt Guard</div>
+          <h1>Local Workspace</h1>
+          <p id="workspace-subtitle">This conversation stays on device.</p>
+        </div>
+        <div id="backend-pill" class="backend-pill">LOCAL</div>
+      </header>
+
+      <section class="workspace-summary">
+        <div class="summary-card">
+          <span class="summary-label">Platform</span>
+          <strong id="platform-value">Unknown</strong>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Risk</span>
+          <strong id="risk-value">High</strong>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Label</span>
+          <strong id="label-value">unknown</strong>
+        </div>
+      </section>
+
+      <section id="warning-banner" class="warning-banner" hidden></section>
+
+      <section class="categories">
+        <div class="summary-label">Detected Categories</div>
+        <div id="categories-list" class="tag-list"></div>
+      </section>
+
+      <section id="thread" class="thread"></section>
+
+      <section class="composer">
+        <label class="summary-label" for="chat-input">Continue locally</label>
+        <textarea
+          id="chat-input"
+          rows="5"
+          placeholder="Ask a follow-up for the local model..."
+        ></textarea>
+        <div id="composer-status" class="composer-status">Waiting for a local session...</div>
+        <div class="composer-actions">
+          <button id="clear-button" class="secondary-button" type="button">Clear Thread</button>
+          <button id="send-button" class="primary-button" type="button">Send</button>
+        </div>
+      </section>
+    </main>
+    <script src="local_chat.js"></script>
+  </body>
+</html>
